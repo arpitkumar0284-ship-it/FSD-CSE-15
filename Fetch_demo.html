@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Demo Fetch</title>
+
+    <style>
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid rgb(27, 14, 14);
+            padding: 10px;
+            text-align: center;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: lightgray;
+        }
+
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>List of Products</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>Title</th>
+                <th>Image</th>
+                <th>Category</th>
+                <th>Rating</th>
+                <th>Price</th>
+                <th>Stock</th>
+            </tr>
+        </thead>
+
+        <tbody id="data">
+        </tbody>
+    </table>
+
+
+    <script>
+        const URL = "https://dummyjson.com/products?limit=10&skip=3";
+
+        async function loadProduct() {
+
+            try {
+
+                const res = await fetch(URL);
+
+                const data = await res.json();
+
+                console.log("data =", data.products);
+
+                let rows = "";
+
+                data.products.map((i, index) => {
+
+                    rows += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${i.title}</td>
+                            <td><img src=${i.images[0]} width=50px height=50px> </td>
+                            <td>${i.category}</td>
+                            <td>${i.rating}</td>
+                            <td>$${i.price}</td>
+                            <td>${i.stock}</td>
+                        </tr>
+                    `;
+
+                });
+
+                document.getElementById("data").innerHTML = rows;
+
+            } catch (err) {
+
+                console.log("Error =", err);
+
+            }
+        }
+
+        loadProduct();
+    </script>
+
+</body>
+
+</html>
+
+
